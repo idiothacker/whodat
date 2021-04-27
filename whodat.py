@@ -19,9 +19,9 @@ def query_whois(d):
         "Domain": d,
         "Status": "",
         "Transfer Lock": "No",
-        "Creation Date": "",
-        "Update Date": "",
-        "Experation Date": "",
+        "Creation Date": str(w.creation_date[0]).split(" ")[0],
+        "Update Date": str(w.updated_date[0]).split(" ")[0],
+        "Experation Date": str(w.expiration_date[0]).split(" ")[0],
         "Name Servers": ""
     }
     
