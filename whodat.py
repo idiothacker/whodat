@@ -19,11 +19,27 @@ def query_whois(d):
         "Domain": d,
         "Status": "",
         "Transfer Lock": "No",
-        "Creation Date": str(w.creation_date[0]).split(" ")[0],
-        "Update Date": str(w.updated_date[0]).split(" ")[0],
-        "Experation Date": str(w.expiration_date[0]).split(" ")[0],
+        "Creation Date": "",
+        "Update Date": "",
+        "Experation Date": "",
         "Name Servers": ""
     }
+    
+    # Deal with dates returning at lists
+    if type(w.creation_date) == list:
+        res["Creation Date"] = str(w.creation_date[0]).split(" ")[0]
+    else:
+        res["Creation Date"] = str(w.creation_date).split(" ")[0]
+    
+    if type(w.updated_date) == list:
+        res["Update Date"] = str(w.updated_date[0]).split(" ")[0]
+    else:
+        res["Update Date"] = str(w.updated_date).split(" ")[0]
+    
+    if type(w.expiration_date) == list:
+        res["Experation Date"] = str(w.expiration_date[0]).split(" ")[0]
+    else:
+        res["Experation Date"] = str(w.expiration_date).split(" ")[0]
     
     # Parse the statuses into unique values
     for s in w.status:
@@ -52,10 +68,12 @@ def query_whois(d):
     
     return res
 
-if args.d == None and args.D == None:
+# Check to make sure that either a single domain or a domain file has been provided
+if domain == None and in_file == None:
     print("You must provide a domain or a list of domains. Use the -h argument for more details.")
     quit()
 
+# Setup and write to the csv output file
 with open(out_file, "w", newline="") as csvfile:
     fieldnames = ["Domain", "Status", "Transfer Lock", "Creation Date", "Update Date", "Experation Date","Name Servers"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)   
@@ -64,3 +82,8 @@ with open(out_file, "w", newline="") as csvfile:
     if domain != None:
         res = query_whois(domain)
         writer.writerow(res)
+    else:
+        with open(in_file, "r") as domains:
+            for d in domains:
+                res = query_whois(d.strip())
+                writer.writerow(res)
