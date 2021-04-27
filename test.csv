@@ -1,0 +1,10 @@
+Domain,Status,Transfer Lock,Creation Date,Update Date,Experation Date,Name Servers
+google.com,"clientDeleteProhibited
+clientTransferProhibited
+clientUpdateProhibited
+serverDeleteProhibited
+serverTransferProhibited
+serverUpdateProhibited",Yes,,,,"ns1.google.com
+ns2.google.com
+ns3.google.com
+ns4.google.com"
